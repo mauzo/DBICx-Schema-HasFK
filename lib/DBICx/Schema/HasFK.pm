@@ -3,6 +3,8 @@ package DBICx::Schema::HasFK;
 use strict;
 use warnings;
 
+use version; our $VERSION = "0.02";
+
 use Carp;
 use Data::Dump qw/dump/;
 use Devel::Peek;
@@ -15,6 +17,7 @@ my $PL = \&Lingua::EN::Inflect::PL;
 sub has_fk {
     my ($class, $col, $fkc, $hm, $attrs) = @_;
 
+    $class->ensure_class_loaded($fkc);
     my @pk = $fkc->primary_columns
         or croak "$fkc has no PK";
     @pk == 1
